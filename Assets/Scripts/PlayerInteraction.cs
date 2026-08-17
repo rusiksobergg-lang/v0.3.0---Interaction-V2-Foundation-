@@ -64,6 +64,10 @@ public class PlayerInteraction : MonoBehaviour
 
                     InteractionAction currentAction =
     availableActions[currentActionIndex];
+                    string objectName =
+    interactable.itemData != null
+    ? interactable.itemData.displayName
+    : interactable.gameObject.name;
 
                     interactionTextUI.enabled = true;
                     if (availableActions.Count > 1)
@@ -77,12 +81,12 @@ public class PlayerInteraction : MonoBehaviour
                             : "<color=#8A8A8A>></color>";
 
                         interactionTextUI.text =
-                            $"{leftArrow}  [F] {currentAction.displayName}  {rightArrow}";
+    $"{objectName}\n{leftArrow}  [F] {currentAction.displayName}  {rightArrow}";
                     }
                     else
                     {
                         interactionTextUI.text =
-                            $"[F] {currentAction.displayName}";
+    $"{objectName}\n[F] {currentAction.displayName}";
                     }
 
                     if (Keyboard.current.fKey.wasPressedThisFrame)

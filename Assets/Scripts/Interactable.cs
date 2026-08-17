@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Interactable : MonoBehaviour
 {
+    [Header("Identity")]
+    public ItemData itemData;
+
     [SerializeField]
     protected List<InteractionAction> actions =
         new List<InteractionAction>();
