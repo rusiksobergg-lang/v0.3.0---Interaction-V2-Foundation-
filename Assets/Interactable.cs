@@ -1,14 +1,20 @@
+
 using UnityEngine;
 using System.Collections.Generic;
 
 public class Interactable : MonoBehaviour
 {
-    public List<InteractionAction> actions =
+    [SerializeField]
+    protected List<InteractionAction> actions =
         new List<InteractionAction>();
 
-    public virtual void Interact(InteractionType actionType)
+    public virtual List<InteractionAction> GetAvailableActions()
     {
-        Debug.Log(
-            $"{gameObject.name}: {actionType}");
+        return actions;
+    }
+
+    public virtual void Interact(InteractionType actionType, Transform interactor)
+    {
+        Debug.Log($"{gameObject.name}: {actionType}");
     }
 }

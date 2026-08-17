@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -35,7 +37,11 @@ public class PlayerInteraction : MonoBehaviour
 
             if (interactable != null)
             {
-                if (interactable.actions.Count > 0)
+                List<InteractionAction> availableActions = interactable.GetAvailableActions();
+                if (currentActionIndex >= availableActions.Count)
+                    currentActionIndex = 0;
+
+                if (availableActions.Count > 0)
                 {
                     float scroll = Mouse.current.scroll.ReadValue().y;
 
@@ -43,23 +49,24 @@ public class PlayerInteraction : MonoBehaviour
                     {
                         currentActionIndex--;
                         if (currentActionIndex < 0)
-                            currentActionIndex = interactable.actions.Count - 1;
+                            currentActionIndex = availableActions.Count - 1;
                         leftArrowFlash = 0.12f;
                     }
                     else if (scroll < -0.1f)
                     {
                         currentActionIndex++;
-                        if (currentActionIndex >= interactable.actions.Count)
+                        if (currentActionIndex >= availableActions.Count)
                             currentActionIndex = 0;
                         rightArrowFlash = 0.12f;
                     }
                     leftArrowFlash = Mathf.Max(0f, leftArrowFlash - Time.deltaTime);
                     rightArrowFlash = Mathf.Max(0f, rightArrowFlash - Time.deltaTime);
 
-                    InteractionAction currentAction = interactable.actions[currentActionIndex];
+                    InteractionAction currentAction =
+    availableActions[currentActionIndex];
 
                     interactionTextUI.enabled = true;
-                    if (interactable.actions.Count > 1)
+                    if (availableActions.Count > 1)
                     {
                         string leftArrow = leftArrowFlash > 0
     ? "<color=#FFD54A><</color>"
@@ -80,7 +87,7 @@ public class PlayerInteraction : MonoBehaviour
 
                     if (Keyboard.current.fKey.wasPressedThisFrame)
                     {
-                        interactable.Interact(currentAction.type);
+                        interactable.Interact(currentAction.type, transform);
                     }
                 }
                 else

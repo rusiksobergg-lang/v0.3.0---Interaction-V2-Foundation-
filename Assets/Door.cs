@@ -8,7 +8,6 @@ public class Door : Interactable
     public float openAngle = 90f;
     public float openSpeed = 4f;
     public bool startsLocked = false;
-    public Transform player;
 
     private bool isOpen = false;
     private bool isLocked;
@@ -41,7 +40,7 @@ public class Door : Interactable
             Time.deltaTime * openSpeed);
     }
 
-    public override void Interact(InteractionType actionType)
+    public override void Interact(InteractionType actionType, Transform interactor)
     {
         switch (actionType)
         {
@@ -49,7 +48,7 @@ public class Door : Interactable
 
                 if (!isLocked)
                 {
-                    Vector3 toPlayer = player.position - doorPivot.position;
+                    Vector3 toPlayer = interactor.position - doorPivot.position;
 
                     float side = Vector3.Dot(doorPivot.right, toPlayer);
 
@@ -62,7 +61,6 @@ public class Door : Interactable
                 break;
 
             case InteractionType.Close:
-
                 isOpen = false;
                 break;
 
@@ -74,7 +72,6 @@ public class Door : Interactable
                 break;
 
             case InteractionType.Unlock:
-
                 isLocked = false;
                 break;
         }
@@ -86,44 +83,38 @@ public class Door : Interactable
     {
         actions.Clear();
 
-        if (isLocked)
+        if (!isOpen)
         {
-            actions.Add(new InteractionAction
-            {
-                type = InteractionType.Unlock,
-                displayName = "Відкрити ключем"
-            });
-        }
-        else
-        {
-            if (isOpen)
+            if (isLocked)
             {
                 actions.Add(new InteractionAction
                 {
-                    type = InteractionType.Close,
-                    displayName = "Закрити"
-                });
-
-                actions.Add(new InteractionAction
-                {
-                    type = InteractionType.Lock,
-                    displayName = "Замкнути"
+                    displayName = "Відкрити ключем",
+                    type = InteractionType.Unlock
                 });
             }
             else
             {
                 actions.Add(new InteractionAction
                 {
-                    type = InteractionType.Open,
-                    displayName = "Відкрити"
+                    displayName = "Відкрити",
+                    type = InteractionType.Open
                 });
 
                 actions.Add(new InteractionAction
                 {
-                    type = InteractionType.Lock,
-                    displayName = "Замкнути"
+                    displayName = "Замкнути",
+                    type = InteractionType.Lock
                 });
             }
+        }
+        else
+        {
+            actions.Add(new InteractionAction
+            {
+                displayName = "Закрити",
+                type = InteractionType.Close
+            });
         }
     }
 }
