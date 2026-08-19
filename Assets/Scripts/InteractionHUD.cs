@@ -16,16 +16,21 @@ public class InteractionHUD : MonoBehaviour
     public float fadeOutSpeed = 0.12f;
 
     private Coroutine fadeCoroutine;
+    private bool isVisible;
 
     private void Awake()
     {
         if (canvasGroup == null)
+            canvasGroup = GetComponent<CanvasGroup>();
+
+        if (canvasGroup == null)
             canvasGroup = root.GetComponent<CanvasGroup>();
 
-        if (canvasGroup != null)
-            canvasGroup.alpha = 0f;
+        canvasGroup.alpha = 0f;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
 
-        root.SetActive(false);
+        isVisible = false;
     }
 
     public void Show(
@@ -37,23 +42,39 @@ public class InteractionHUD : MonoBehaviour
         itemInfoText.text = itemInfo;
         actionText.text = action;
 
+        // Якщо HUD вже видно —
+        // просто оновлюємо текст.
+        if (isVisible)
+            return;
+
+        isVisible = true;
+
         if (fadeCoroutine != null)
             StopCoroutine(fadeCoroutine);
 
-        root.SetActive(true);
-
-        fadeCoroutine = StartCoroutine(FadeTo(1f, fadeInSpeed));
+        fadeCoroutine = StartCoroutine(
+            FadeTo(1f, fadeInSpeed)
+        );
     }
 
     public void Hide()
     {
+        if (!isVisible)
+            return;
+
+        isVisible = false;
+
         if (fadeCoroutine != null)
             StopCoroutine(fadeCoroutine);
 
-        fadeCoroutine = StartCoroutine(FadeOut());
+        fadeCoroutine = StartCoroutine(
+            FadeOut()
+        );
     }
 
-    private IEnumerator FadeTo(float targetAlpha, float duration)
+    private IEnumerator FadeTo(
+        float targetAlpha,
+        float duration)
     {
         float startAlpha = canvasGroup.alpha;
         float elapsed = 0f;
@@ -65,7 +86,11 @@ public class InteractionHUD : MonoBehaviour
             float t = elapsed / duration;
 
             canvasGroup.alpha =
-                Mathf.Lerp(startAlpha, targetAlpha, t);
+                Mathf.Lerp(
+                    startAlpha,
+                    targetAlpha,
+                    t
+                );
 
             yield return null;
         }
@@ -79,6 +104,6 @@ public class InteractionHUD : MonoBehaviour
             FadeTo(0f, fadeOutSpeed)
         );
 
-        root.SetActive(false);
+        canvasGroup.alpha = 0f;
     }
 }
