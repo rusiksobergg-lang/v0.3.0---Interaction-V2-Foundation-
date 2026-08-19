@@ -21,6 +21,8 @@ MonoBehaviour:
     \u0440\u0435\u0447\u0435\u0439."
   weight: 1.1
   useCondition: 1
+  minSpawnCondition: 20
+  maxSpawnCondition: 90
   maxCondition: 100
   canBeRepaired: 1
   icon: {fileID: 0}
