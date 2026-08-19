@@ -10,5 +10,6 @@ public enum InteractionType
     Repair,
     Examine,
     Read,
+    Pickup,
     Use
 }

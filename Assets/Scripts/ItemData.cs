@@ -17,6 +17,14 @@ public class ItemData : ScriptableObject
     [Header("Inventory")]
     public float weight = 1f;
 
+    [Header("Condition")]
+    public bool useCondition = true;
+
+    [Min(1)]
+    public int maxCondition = 100;
+
+    public bool canBeRepaired = true;
+
     [Header("UI")]
     public Sprite icon;
 }
