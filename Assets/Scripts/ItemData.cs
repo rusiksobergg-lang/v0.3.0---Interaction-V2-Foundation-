@@ -20,6 +20,13 @@ public class ItemData : ScriptableObject
     [Header("Condition")]
     public bool useCondition = true;
 
+    [Header("Spawn Condition")]
+    [Range(0, 100)]
+    public int minSpawnCondition = 40;
+
+    [Range(0, 100)]
+    public int maxSpawnCondition = 100;
+
     [Min(1)]
     public int maxCondition = 100;
 

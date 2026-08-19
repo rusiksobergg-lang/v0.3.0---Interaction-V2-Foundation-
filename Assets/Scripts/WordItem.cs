@@ -18,4 +18,9 @@ public class WorldItem : Interactable
     {
         return itemInstance;
     }
+
+    public void Initialize(ItemInstance existingInstance)
+    {
+        itemInstance = existingInstance;
+    }
 }
