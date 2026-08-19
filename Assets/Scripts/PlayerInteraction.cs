@@ -91,11 +91,12 @@ public class PlayerInteraction : MonoBehaviour
 
         // Оновлюємо HUD
         interactionHUD.Show(
-            objectName,
-            itemInfo,
-            actionText,
-            itemIcon
-        );
+    objectName,
+    itemInfo,
+    actionText,
+    itemIcon,
+    availableActions.Count > 1
+);
 
         // Натискання F
         if (Keyboard.current != null &&
@@ -109,7 +110,7 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     private void HandleActionSelection(
-        List<InteractionAction> availableActions)
+    List<InteractionAction> availableActions)
     {
         if (Mouse.current == null)
             return;
@@ -119,18 +120,28 @@ public class PlayerInteraction : MonoBehaviour
 
         if (scroll > 0.1f)
         {
+            // Колесо вгору → попередня дія
             currentActionIndex--;
 
             if (currentActionIndex < 0)
                 currentActionIndex =
                     availableActions.Count - 1;
+
+            // Підсвічуємо ліву стрілку
+            if (availableActions.Count > 1)
+                interactionHUD.HighlightArrow(false);
         }
         else if (scroll < -0.1f)
         {
+            // Колесо вниз → наступна дія
             currentActionIndex++;
 
             if (currentActionIndex >= availableActions.Count)
                 currentActionIndex = 0;
+
+            // Підсвічуємо праву стрілку
+            if (availableActions.Count > 1)
+                interactionHUD.HighlightArrow(true);
         }
     }
 
