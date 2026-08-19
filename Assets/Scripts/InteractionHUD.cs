@@ -9,6 +9,7 @@ public class InteractionHUD : MonoBehaviour
     public TextMeshProUGUI itemNameText;
     public TextMeshProUGUI itemInfoText;
     public TextMeshProUGUI actionText;
+    public UnityEngine.UI.Image itemIcon;
 
     [Header("Fade")]
     public CanvasGroup canvasGroup;
@@ -36,14 +37,24 @@ public class InteractionHUD : MonoBehaviour
     public void Show(
         string itemName,
         string itemInfo,
-        string action)
+        string action,
+        Sprite icon)
     {
         itemNameText.text = itemName;
         itemInfoText.text = itemInfo;
         actionText.text = action;
 
-        // Якщо HUD вже видно —
-        // просто оновлюємо текст.
+        if (icon != null)
+        {
+            itemIcon.sprite = icon;
+            itemIcon.enabled = true;
+        }
+        else
+        {
+            itemIcon.sprite = null;
+            itemIcon.enabled = false;
+        }
+
         if (isVisible)
             return;
 

@@ -83,11 +83,18 @@ public class PlayerInteraction : MonoBehaviour
         string actionText =
             $"[F] {currentAction.displayName}";
 
+        // Отримуємо іконку предмета
+        Sprite itemIcon = null;
+
+        if (interactable.itemData != null)
+            itemIcon = interactable.itemData.icon;
+
         // Оновлюємо HUD
         interactionHUD.Show(
             objectName,
             itemInfo,
-            actionText
+            actionText,
+            itemIcon
         );
 
         // Натискання F
