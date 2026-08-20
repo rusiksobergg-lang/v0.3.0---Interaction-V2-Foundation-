@@ -308,8 +308,27 @@ public class PlayerMovement : MonoBehaviour
         float targetSpeed = 0f;
         bool sprint = false;
 
+        Vector3 desiredDirection = Vector3.zero;
+        bool changingDirection = false;
+
         if (input.sqrMagnitude > 0.001f)
         {
+            desiredDirection =
+                transform.right * input.x +
+                transform.forward * input.y;
+
+            desiredDirection.Normalize();
+
+            // If the player is moving and the new input points backwards
+            // against the current movement direction, brake first.
+            if (currentDirection.sqrMagnitude > 0.001f)
+            {
+                float directionDot =
+                    Vector3.Dot(currentDirection, desiredDirection);
+
+                changingDirection = directionDot < -0.5f;
+            }
+
             if (isProne)
             {
                 targetSpeed = proneMoveSpeed;
@@ -354,29 +373,33 @@ public class PlayerMovement : MonoBehaviour
         isSprinting = sprint;
         wasSprinting = sprint;
 
+        // When reversing direction, bring speed down to zero first.
+        // The new direction is applied only after the player has stopped.
+        float speedTarget = changingDirection ? 0f : targetSpeed;
+
         float speedChange =
-            targetSpeed > currentSpeed
+            speedTarget > currentSpeed
                 ? acceleration
                 : deceleration;
 
         currentSpeed = Mathf.MoveTowards(
             currentSpeed,
-            targetSpeed,
+            speedTarget,
             speedChange * Time.deltaTime
         );
 
-        if (input.sqrMagnitude > 0.001f)
+        if (currentSpeed <= 0.01f)
         {
-            Vector3 desiredDirection =
-                transform.right * input.x +
-                transform.forward * input.y;
-
-            currentDirection = desiredDirection.normalized;
-        }
-        else
-        {
-            // Stop horizontal movement when there is no input.
+            currentSpeed = 0f;
             currentDirection = Vector3.zero;
+        }
+
+        if (desiredDirection.sqrMagnitude > 0.001f)
+        {
+            // Normal movement changes direction immediately.
+            // A full reversal waits until currentSpeed reaches zero.
+            if (!changingDirection || currentSpeed <= 0.01f)
+                currentDirection = desiredDirection;
         }
 
         if (controller.isGrounded)

@@ -13,14 +13,16 @@ MonoBehaviour:
   m_Name: WoodenDoor
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemID: door_wood_001
-  displayName: "\u0414\u0435\u0440\u0435\u0432'\u044F\u043D\u0456 \u0434\u0432\u0435\u0440\u0456"
+  displayName: "\u0414\u0432\u0435\u0440\u0456 "
   category: 1
   description: "\u0421\u0442\u0430\u0440\u0456 \u0434\u0435\u0440\u0435\u0432'\u044F\u043D\u0456
     \u0434\u0432\u0435\u0440\u0456."
   weight: 1
+  inventoryWidth: 1
+  inventoryHeight: 1
   useCondition: 0
-  minSpawnCondition: 40
+  minSpawnCondition: 100
   maxSpawnCondition: 100
-  maxCondition: 100
+  maxCondition: 1000
   canBeRepaired: 0
   icon: {fileID: 0}

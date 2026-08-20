@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850a58747b0427245913438f1178d838, type: 3}
   m_Name: Barrel
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemID: 
-  displayName: 
-  category: 0
-  description: 
-  weight: 1
+  itemID: barrel_001
+  displayName: Barrel
+  category: 2
+  description: "\u0421\u0442\u0430\u0440\u0430 \u0431\u043E\u0447\u043A\u0430. \u041C\u043E\u0436\u043D\u0430
+    \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0442\u0438 \u0437\u0430\u043F\u0430\u0441\u0438"
+  weight: 10
+  inventoryWidth: 1
+  inventoryHeight: 1
   useCondition: 1
   minSpawnCondition: 40
   maxSpawnCondition: 100
   maxCondition: 100
   canBeRepaired: 1
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5679fac50f1fc564eb195512272dcb87, type: 3}

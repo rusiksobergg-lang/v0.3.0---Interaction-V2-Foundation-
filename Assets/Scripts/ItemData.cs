@@ -17,6 +17,12 @@ public class ItemData : ScriptableObject
     [Header("Inventory")]
     public float weight = 1f;
 
+    [Min(1)]
+    public int inventoryWidth = 1;
+
+    [Min(1)]
+    public int inventoryHeight = 1;
+
     [Header("Condition")]
     public bool useCondition = true;
 
